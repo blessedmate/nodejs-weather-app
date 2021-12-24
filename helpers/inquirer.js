@@ -78,9 +78,38 @@ const confirm = async (message) => {
   return ok;
 };
 
+const listPlaces = async (places = []) => {
+  const choices = places.map((place, i) => {
+    const idx = `${i + 1}.`.green;
+
+    return {
+      value: place.id,
+      name: `${idx} ${place.name}`,
+    };
+  });
+
+  choices.unshift({
+    value: 0,
+    name: `0.`.green + " Cancel",
+  });
+
+  const questions = [
+    {
+      type: "list",
+      name: "id",
+      message: "Select location:",
+      choices,
+    },
+  ];
+
+  const { id } = await inquirer.prompt(questions);
+  return id;
+};
+
 module.exports = {
   inquirerMenu,
   pause,
   readInput,
   confirm,
+  listPlaces,
 };
