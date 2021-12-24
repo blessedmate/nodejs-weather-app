@@ -28,16 +28,21 @@ const main = async () => {
         const selected = possiblePlaces.find((l) => l.id === id);
 
         // get weather data
+        const weatherInfo = await requests.getWeatherInfo(
+          selected.lat,
+          selected.lng
+        );
 
         // show results
+        console.clear();
         console.log("\nPlace info \n".green);
-        console.log("City:", selected.name);
+        console.log("City:", selected.name.yellow);
         console.log("Lat:", selected.lat);
         console.log("Lng:", selected.lng);
-        console.log("Temperature:");
-        console.log("Min:");
-        console.log("Max:");
-        console.log("Weather description:");
+        console.log("Temperature:", weatherInfo.temp);
+        console.log("Min:", weatherInfo.min);
+        console.log("Max:", weatherInfo.max);
+        console.log("Weather description:", weatherInfo.description.yellow);
 
         break;
       case 2:
