@@ -1,10 +1,20 @@
 const axios = require("axios").default;
+const fs = require("fs");
+const capitalize = require("capitalize");
 
 class Requests {
-  history = ["Bucaramanga", "New York", "Mannheim"];
+  history = [];
+  dbPath = "./db/database.json";
 
   constructor() {
     // TODO: Read DB
+    this.readDB();
+  }
+
+  get historyCapitalized() {
+    return this.history.map((place) => {
+      return capitalize.words(place);
+    });
   }
 
   get paramsMapbox() {
@@ -61,6 +71,34 @@ class Requests {
     } catch (error) {
       console.log("error");
     }
+  }
+
+  addHistory(place = "") {
+    if (this.history.includes(place.toLocaleLowerCase())) {
+      return;
+    }
+    this.history = this.history.splice(0, 5);
+
+    this.history.unshift(place.toLocaleLowerCase());
+
+    // Save in json
+    this.saveDB();
+  }
+
+  saveDB() {
+    const data = {
+      history: this.history,
+    };
+
+    fs.writeFileSync(this.dbPath, JSON.stringify(data));
+  }
+
+  readDB() {
+    if (!fs.existsSync(this.dbPath)) return;
+
+    const dbInfo = fs.readFileSync(this.dbPath, { encoding: "utf-8" });
+    const data = JSON.parse(dbInfo);
+    this.history = data.history;
   }
 }
 

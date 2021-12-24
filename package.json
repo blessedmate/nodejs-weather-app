@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.24.0",
+    "capitalize": "^2.0.4",
     "colors": "^1.4.0",
     "dotenv": "^10.0.0",
     "inquirer": "^8.2.0"

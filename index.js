@@ -25,7 +25,13 @@ const main = async () => {
 
         // select a place
         const id = await listPlaces(possiblePlaces);
+        if (id === 0) {
+          continue;
+        }
         const selected = possiblePlaces.find((l) => l.id === id);
+
+        // save in json
+        requests.addHistory(selected.name);
 
         // get weather data
         const weatherInfo = await requests.getWeatherInfo(
@@ -46,6 +52,10 @@ const main = async () => {
 
         break;
       case 2:
+        requests.historyCapitalized.forEach((place, i) => {
+          const idx = `${i + 1}.`.green;
+          console.log(`${idx} ${place}`);
+        });
         break;
     }
 
